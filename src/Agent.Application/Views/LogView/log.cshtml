@@ -1,0 +1,76 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="utf-8" />
+    <title>应用实时日志</title>
+    <style>
+    </style>
+</head>
+<body>
+    <div id="logContainer"></div>
+    <script>
+        var logContainer = document.getElementById('logContainer');
+        var marginBottom = 'margin-bottom: 5px;';
+        var marginTop = 'margin-top: 30px;';
+        var redFont = 'color:#ff4d4f;';
+        var warnFont = 'color:#faad14;';
+        var isError = false;
+        var isWarning = false;
+        var isSelected = false;
+
+        socket = new WebSocket('ws://@ViewBag.Host/log/realtime/@ViewBag.ServiceName');
+        socket.onopen = function (event) {
+            logContainer.innerHTML += `<div style="margin-bottom:20px;">日志连接成功</div>`;
+        };
+        socket.onclose = function (event) {
+            logContainer.innerHTML += '<div style="margin-top:20px;">日志连接已关闭</div>';
+        };
+        socket.onerror = function (event) {
+            console.log(event);
+            logContainer.innerHTML += '<div style="color:#ff4d4f;">日志连接错误</div>';
+        };
+        socket.onmessage = function (event) {
+            var data = event.data;
+            var style = marginBottom;
+
+            if (data.indexOf('Error:') > -1) {
+                isError = true;
+                isWarning = false;
+                style = marginTop;
+            }
+
+            if (data.indexOf('Warning:') > -1) {
+                isError = false;
+                isWarning = true;
+                style = marginTop;
+            }
+            if (data.indexOf('Info:') > -1 || data.indexOf('Debug:') > -1) {
+                isError = false;
+                isWarning = false;
+                style = marginTop;
+            }
+
+            if (isError) {
+                style = `${redFont}${style}`;
+            }
+
+            if (isError) {
+                style = `${warnFont}${style}`;
+            }
+
+            var div = document.createElement('div');
+            div.style = style;
+            div.innerText = event.data;
+            logContainer.append(div);
+
+            if (!document.getSelection().toString()) {
+                window.scrollTo(0, logContainer.scrollHeight);
+            }
+        };
+    </script>
+</body>
+</html>

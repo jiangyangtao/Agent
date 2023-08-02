@@ -16,6 +16,7 @@ namespace Agent.Application
             var configuration = builder.Configuration;
             var services = builder.Services;
 
+            services.AddRazorPages();
             services.AddControllers();
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -44,7 +45,7 @@ namespace Agent.Application
             app.UseCors();
             app.UseWebSockets();
             app.UseAuthorization();
-
+            app.UseStaticFiles();
 
             app.MapControllers();
 

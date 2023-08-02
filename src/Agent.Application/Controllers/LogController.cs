@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Net.WebSockets;
 using System.Reactive.Subjects;
 using System.Text;
+using Yangtao.Hosting.Extensions;
 
 namespace Agent.Application.Controllers
 {
@@ -15,9 +16,9 @@ namespace Agent.Application.Controllers
             _logger = logger;
         }
 
-        [HttpGet("/[controller]/{service}")]
+        [HttpGet("/[controller]/[action]/{service}")]
         [AllowAnonymous]
-        public async Task Status([FromRoute] string service)
+        public async Task RealTime([FromRoute] string service)
         {
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
@@ -37,6 +38,17 @@ namespace Agent.Application.Controllers
                     process.Stop(true);
                 }
             }
+        }
+
+        [HttpGet("/[controller]/{service}")]
+        [AllowAnonymous]
+        public IActionResult Log([FromRoute] string service)
+        {
+            if (service.IsNullOrEmpty()) return NotFound();
+
+            ViewBag.ServiceName = service;
+            ViewBag.Host = Request.Host;
+            return View("Views/LogView/log.cshtml");
         }
 
         private async Task Echo(WebSocket webSocket, Subject<string> standardOuput)

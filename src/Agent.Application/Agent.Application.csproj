@@ -10,6 +10,7 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="System.Reactive" Version="6.0.0" />
 	<PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
+	<PackageReference Include="Yangtao.Hosting.Extensions" Version="1.0.0-alpha2.1" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,7 +2,7 @@
 
 namespace Agent.Application.Controllers
 {
-    public abstract class BaseController : ControllerBase
+    public abstract class BaseController : Controller
     {
 
     }
