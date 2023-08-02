@@ -12,4 +12,19 @@
 	<PackageReference Include="NLog.Web.AspNetCore" Version="5.2.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Certificates\tobacco.automation.cer">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Certificates\tobacco.automation.csr">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Certificates\tobacco.automation.key">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Certificates\tobacco.automation.pfx">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

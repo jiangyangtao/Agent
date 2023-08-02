@@ -42,10 +42,13 @@ namespace Agent.Application
             //app.UseHttpsRedirection();
 
             app.UseCors();
+            app.UseWebSockets();
             app.UseAuthorization();
 
 
             app.MapControllers();
+
+            app.Map("/", () => "Hello Agent Service"); // ื๎ะก API
 
             app.Run();
         }
