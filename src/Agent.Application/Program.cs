@@ -1,3 +1,5 @@
+using NLog.Web;
+
 namespace Agent.Application
 {
     public class Program
@@ -6,12 +8,27 @@ namespace Agent.Application
         {
             var builder = WebApplication.CreateBuilder(args);
 
-            // Add services to the container.
+            // Add NLog
+            builder.Logging.ClearProviders();
+            builder.Host.UseNLog();
 
-            builder.Services.AddControllers();
+            // Add services to the container.
+            var configuration = builder.Configuration;
+            var services = builder.Services;
+
+            services.AddControllers();
+
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            builder.Services.AddEndpointsApiExplorer();
-            builder.Services.AddSwaggerGen();
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+
+            services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(policy =>
+                {
+                    policy.SetIsOriginAllowed(_ => true).AllowAnyHeader().AllowAnyMethod().AllowCredentials();
+                });
+            });
 
             var app = builder.Build();
 
@@ -22,8 +39,9 @@ namespace Agent.Application
                 app.UseSwaggerUI();
             }
 
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
 
+            app.UseCors();
             app.UseAuthorization();
 
 
