@@ -21,7 +21,7 @@ namespace Agent.Application
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,
                 RedirectStandardInput = true,
-
+                StandardInputEncoding = Encoding.UTF8,
             };
             var process = new Process { StartInfo = startinfo };
             process.OutputDataReceived += OnReceived;
@@ -39,8 +39,6 @@ namespace Agent.Application
 
 
             _process = process;
-
-            //Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
         }
 
 
@@ -86,7 +84,7 @@ namespace Agent.Application
         {
             if (string.IsNullOrEmpty(e.Data)) return;
 
-            StandardOutput.OnNext(ReparseAsciiDataAsUtf8(e.Data));
+            StandardOutput.OnNext(e.Data); // ReparseAsciiDataAsUtf8(e.Data)
         }
 
         void OnExist(object sender, EventArgs e)
