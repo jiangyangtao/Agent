@@ -1,5 +1,4 @@
 using NLog.Web;
-using System.Text;
 
 namespace Agent.Application
 {
