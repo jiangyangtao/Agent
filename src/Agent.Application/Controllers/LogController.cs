@@ -23,7 +23,7 @@ namespace Agent.Application.Controllers
             if (HttpContext.WebSockets.IsWebSocketRequest)
             {
                 var websocket = await HttpContext.WebSockets.AcceptWebSocketAsync();
-                using var process = new ObservableProcess("journalctl", $" -u {service} -f -n 200");
+                using var process = new ObservableProcess("journalctl", $" -u {service} -f -n 1000");
                 try
                 {
                     process.Start();
