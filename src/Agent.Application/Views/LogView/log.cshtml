@@ -21,8 +21,10 @@
         var isError = false;
         var isWarning = false;
         var isSelected = false;
-
-        socket = new WebSocket('ws://@ViewBag.Host/log/realtime/@ViewBag.ServiceName');
+        var protocol = 'ws';
+        if (window.location.protocol == 'https') protocol = 'wss';
+        
+        socket = new WebSocket(`${protocol}://@ViewBag.Host/log/realtime/@ViewBag.ServiceName`);
         socket.onopen = function (event) {
             logContainer.innerHTML += `<div style="margin-bottom:20px;">日志连接成功</div>`;
         };
